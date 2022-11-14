@@ -15,24 +15,17 @@
       <option value="designer">Web Designer</option>
     </select>
 
+    <!-- Array: use this for multiple booleans -->
+    <label>Skills: </label>
+    <input type="text" v-model="tempSkill" @keyup.ctrl="addSkill" />
+    <div v-for="skill in skills" :key="skill" class="pill">
+        {{ skill }}
+    </div>
+
     <!-- Boolean -->
     <div class="terms">
       <input type="checkbox" v-model="terms" required />
       <label>Accept terms and conditions</label>
-    </div>
-
-    <!-- Array: use this for multiple booleans -->
-    <div>
-      <input type="checkbox" value="shaun" v-model="names"/>
-      <label>Shaun</label>
-    </div>
-    <div>
-      <input type="checkbox" value="yoshi" v-model="names"/>
-      <label>Yoshi</label>
-    </div>
-    <div>
-      <input type="checkbox" value="mario" v-model="names"/>
-      <label>Mario</label>
     </div>
 
   </form>
@@ -42,7 +35,6 @@
   <p>Password: {{ password }}</p>
   <p>Role: {{ role }}</p>
   <p>Terms accepted: {{ terms }}</p>
-  <p>Names: {{ names }}</p>
 </template>
 
 <script>
@@ -53,9 +45,24 @@ export default {
       password: "",
       role: "",
       terms: false,
-      names: [],
+      tempSkill: '',
+      skills: [],
     };
   },
+  methods: {
+    addSkill(e) {
+        if (e.key === ',' && this.tempSkill) {
+            /*
+                - Checks if the skills array does not have skills
+                - Can't add duplicate skills
+            */
+            if (!this.skills.includes(this.tempSkill)) {
+                this.skills.push(this.tempSkill)
+            }
+            this.tempSkill = ''
+        }
+    }
+  }
 };
 </script>
 
